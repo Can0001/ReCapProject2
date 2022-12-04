@@ -12,6 +12,7 @@ namespace Core.DataAccess
     {
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
         T Get(Expression<Func<T, bool>> filter); // tek veri gelicek filter zorunlu
+        bool Any(Expression<Func<T, bool>> exp);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class ColorValidator:AbstractValidator<Color>
+    public class ColorValidator : AbstractValidator<Color>
     {
         public ColorValidator()
         {
-            RuleFor(c=>c.ColorName).MinimumLength(2).NotEmpty();
+            RuleFor(c => c.ColorName).MinimumLength(2).NotEmpty();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constans;
+using Business.Constants;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -16,28 +17,15 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
-
         public RentalManager(IRentalDal rentalDal)
         {
-            _rentalDal = rentalDal; 
+            _rentalDal = rentalDal;
         }
+
         public IResult Add(Rental rental)
         {
-            IResult result = BusinessRules.Run(
-                IsCarAlreadyRented(rental.CarsId)
-                );
-
-            if (result != null)
-            {
-                return result;
-            }
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
-        }
-
-        public IDataResult<List<Rental>> AllRentalCars()
-        {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(),Messages.RentalListed);
         }
 
         public IResult Delete(Rental rental)
@@ -46,33 +34,36 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        public IDataResult<Rental> Get(int id)
+        public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r=>r.Id==id),Messages.RentalListed);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalListed);
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalCarDetails()
+        public IDataResult<List<Rental>> GetById(int Id)
         {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetail(),Messages.RentalListedByCarDetails);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.Id == Id), Messages.RentalListed);
         }
 
         public IDataResult<List<Rental>> GetNotRentedCars()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r=>r.ReturnDate==null),Messages.RentalListedByNotRentedCars);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.ReturnDate == null), Messages.RentalListedByNotRentedCars);
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalDetail()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetail(), Messages.RentalListedByCarDetails);
         }
 
         public IDataResult<List<Rental>> GetRentedCars()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.ReturnDate != null),Messages.RentalListedByRentedCars);
-
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.ReturnDate != null), Messages.RentalListedByRentedCars);
         }
 
-        public IResult Uptade(Rental rental)
+        public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
-            return new SuccessResult(Messages.RentalUpdated);
+            return new SuccessResult(Messages.RentalUpdate);
         }
-
         private IResult IsCarAlreadyRented(int cadId)
         {
             var result = _rentalDal.Get(p => p.CarsId == cadId && p.ReturnDate == null);

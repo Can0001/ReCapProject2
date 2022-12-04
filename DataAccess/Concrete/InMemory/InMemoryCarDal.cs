@@ -30,6 +30,11 @@ namespace DataAccess.Concrete.InMemory
             _cars.Add(car);
         }
 
+        public bool Any(Expression<Func<Car, bool>> exp)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Car car)
         {
             Car carToDelete = _cars.SingleOrDefault(c => c.CarsId == car.CarsId);
@@ -62,6 +67,21 @@ namespace DataAccess.Concrete.InMemory
         }
 
         public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarDetails(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CarDetailDto GetDetail(Expression<Func<Car, bool>> filter)
         {
             throw new NotImplementedException();
         }

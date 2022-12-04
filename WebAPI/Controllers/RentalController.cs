@@ -7,67 +7,38 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RentalsController : ControllerBase
+    public class RentalController : ControllerBase
     {
         IRentalService _rentalService;
-        public RentalsController(IRentalService rentalService)
+        public RentalController(IRentalService rentalService)
         {
             _rentalService = rentalService;
-        }
-        [HttpPost("add")]
-        public IActionResult Add(Rental rental)
-        {
-            var result = _rentalService.Add(rental);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpPost("update")]
-        public IActionResult Update(Rental rental)
-        {
-            var result = _rentalService.Uptade(rental);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpPost("delete")]
-        public IActionResult Delete(Rental rental)
-        {
-            var result = _rentalService.Delete(rental);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpGet("get")]
-        public IActionResult Get(int id)
-        {
-            var result = _rentalService.Get(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
         }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _rentalService.AllRentalCars();
+            var result = _rentalService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpGet("getrented")]
-        public IActionResult GetRentedCars()
+
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
-            var result = _rentalService.GetRentedCars();
+            var result = _rentalService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getdetails")]
+        public IActionResult GetDetails()
+        {
+            var result = _rentalService.GetRentalDetail();
             if (result.Success)
             {
                 return Ok(result);
@@ -84,10 +55,10 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpGet("getdetails")]
-        public IActionResult GetDetails()
+        [HttpGet("getrented")]
+        public IActionResult GetRentedCars()
         {
-            var result = _rentalService.GetRentalCarDetails();
+            var result = _rentalService.GetRentedCars();
             if (result.Success)
             {
                 return Ok(result);
@@ -95,5 +66,37 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("add")]
+        public IActionResult Add(Rental rental)
+        {
+            var result = _rentalService.Add(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(Rental rental)
+        {
+            var result = _rentalService.Delete(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(Rental rental)
+        {
+            var result = _rentalService.Update(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

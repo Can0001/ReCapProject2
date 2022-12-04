@@ -10,20 +10,15 @@ namespace Business.ValidationRules.FluentValidation
 {
     public class CarValidator : AbstractValidator<Car>
     {
-        public CarValidator()
+        public class CarsValidator : AbstractValidator<Car>
         {
-            RuleFor(c=>c.ModelYears).NotEmpty();
-            RuleFor(c=>c.DailyPrice).NotEmpty();
-            RuleFor(c => c.DailyPrice).GreaterThan(0);
-            RuleFor(c => c.Description).MinimumLength(2);
-            //RuleFor(c => c.DailyPrice).GreaterThanOrEqualTo(1000).When(p => p.BrandId == 2);
-            //RuleFor(c => c.ProductName).Must(StartWithA).WithMessage("Ürünler A harfi ile başlamalı.");
-
+            public CarsValidator()
+            {
+                RuleFor(c => c.ModelYears).NotEmpty();
+                RuleFor(c => c.DailyPrice).NotEmpty();
+                RuleFor(c => c.DailyPrice).GreaterThan(0);
+                RuleFor(c => c.Description).MinimumLength(2);
+            }
         }
-
-        //private bool StartWithA(string arg)
-        //{
-        //    return arg.StartsWith("A");
-        //}
     }
 }

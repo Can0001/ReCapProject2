@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class CarImageValidator:AbstractValidator<CarImage>
+    public class CarImageValidator : AbstractValidator<CarImage>
     {
         public CarImageValidator()
         {
-            RuleFor(c => c.Id).NotEmpty();
-            RuleFor(c => c.Id).NotEmpty();
+            RuleFor(i => i.ImagePath).NotEmpty();
         }
+
     }
 }

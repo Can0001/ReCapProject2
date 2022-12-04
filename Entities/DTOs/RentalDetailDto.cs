@@ -9,15 +9,15 @@ namespace Entities.DTOs
 {
     public class RentalDetailDto : IDto
     {
-        public int CarId { get; set; }
-        public int CarModel { get; set; }
-        public string BrandName { get; set; }
-        public string ColorName { get; set; }
-        public decimal DailyPrice { get; set; }
+        public int CarsId { get; set; }
+        public int CarsModel { get; set; }
+        public string BrandsName { get; set; }
+        public string ColorsName { get; set; }
+        public int DailyPrice { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
         public string CustomerCompanyName { get; set; }
-        public DateTime CarRentDate { get; set; }
-        public DateTime? CarReturnTime { get; set; }
+        public DateTime RentDate { get; set; }
+        public DateTime ReturnTime { get; set; }
     }
 }

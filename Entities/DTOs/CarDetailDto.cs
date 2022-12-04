@@ -1,4 +1,5 @@
 ﻿using Core;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,14 @@ namespace Entities.DTOs
 {
     public class CarDetailDto : IDto
     {
-        
-        public int CarId { get; set; }
-        public string CarName { get; set; }
-        public decimal DailyPrice { get; set; }
-        public string BrandName { get; set; }
+        public int CarsId { get; set; }
+        public int BrandsId { get; set; }
+        public int ColorsId { get; set; }
+        public string Description { get; set; }
         public string ColorName { get; set; }
-
+        public string BrandsName { get; set; }
+        public int ModelYears { get; set; }
+        public int DailyPrice { get; set; }
+        public List<CarImage> ImagePath { get; set; }
     }
 }

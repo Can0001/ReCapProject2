@@ -1,4 +1,6 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Exceptions;
+using Core.Utilities.Helpers.FileHelper;
+using Core.Utilities.Results;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -7,51 +9,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Utilities.Helpers.FileHelper
+namespace Core.Utilities.Helpers
 {
+
     public class FileHelperManager : IFileHelper
     {
+        static string _basePath = Directory.GetCurrentDirectory() + "/wwwroot/";
+        static string _imageFolder = "images/";
+        string _fullPath = _basePath + _imageFolder;
+
+        public string Add(IFormFile file)
+        {
+            CreateDirectory(_fullPath);
+
+            var fileExtension = Path.GetExtension(file.FileName);
+            CheckImage(fileExtension);
+
+            var imagePath = _imageFolder + Guid.NewGuid().ToString() + fileExtension;
+
+            CreateFile(file, _basePath + imagePath);
+
+            return imagePath;
+        }
+
         public void Delete(string filePath)
         {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-
+            File.Delete(_basePath + filePath);
         }
 
-        public string Update(IFormFile file, string filePath, string root)
+        public string Update(IFormFile file, string oldFilePath)
         {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-
-            return Upload(file, root);
+            Delete(oldFilePath);
+            return Add(file);
         }
 
-
-        public string Upload(IFormFile file, string root)
+        private void CheckImage(string extension)
         {
-            if (file.Length > 0)
+            var extensions = new List<string> { ".jpg", ".png", "jpeg" };
+
+            if (!extensions.Contains(extension))
+                throw new FileHelperCustomException("Unsupported Media Type");
+        }
+
+        private void CreateDirectory(string path)
+        {
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        }
+
+        private void CreateFile(IFormFile file, string path)
+        {
+            using (FileStream fileStream = File.Create(path))
             {
-                if (!Directory.Exists(root))
-                {
-                    Directory.CreateDirectory(root);
-                }
-
-                string imageExtension = Path.GetExtension(file.FileName);
-                string imageName = Guid.NewGuid().ToString() + imageExtension;
-
-                using (FileStream fileStream = File.Create(root + imageName))
-                {
-                    file.CopyTo(fileStream);
-                    fileStream.Flush();
-                    return imageName;
-
-                }
+                file.CopyTo(fileStream);
+                fileStream.Flush();
             }
-            return null;
         }
     }
 }
